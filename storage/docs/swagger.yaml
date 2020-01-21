@@ -1,0 +1,2614 @@
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: v1
+  title: Golf Ski World
+  description: |
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+basePath: /
+produces:
+  - application/json
+consumes:
+  - application/json
+
+################################################################################
+#                                   Tags                                       #
+################################################################################
+tags:
+  - name: Auth
+  - name: Password
+  - name: User
+  - name: Booking
+  - name: Follower
+  - name: Like
+  - name: Comment
+  - name: Share
+  - name: Area
+  - name: Geo
+  - name: TV
+  - name: Photo
+  - name: Video
+  - name: Accommodation
+  - name: Resort
+  - name: Restaurant
+  - name: Deal
+  - name: Lastminute
+  - name: Destination
+  - name: Other
+
+################################################################################
+#                                    Paths                                     #
+################################################################################
+paths:
+
+  ### Auth ###
+
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Auth `user`
+      parameters:
+        - name: email
+          in: formData
+          description: User email
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: Object `user`
+          schema:
+            $ref: '#/definitions/Auth'
+
+  /api/auth/signup:
+    post:
+      tags:
+        - Auth
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Signup `user` and send to specified `email` mail with credentials
+      parameters:
+        - name: name
+          in: formData
+          description: User `name`
+          required: true
+          type: string
+        - name: email
+          in: formData
+          description: User `email`
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: User `password`. If `password` is empty, string will be generated automatically
+          type: string
+      responses:
+        200:
+          description: Object `user`
+          schema:
+            $ref: '#/definitions/Auth'
+
+  /api/auth/facebook/login:
+    post:
+      tags:
+        - Auth
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Auth `user` with Facebook
+      parameters:
+        - name: email
+          in: formData
+          description: User email
+          required: true
+          type: string
+        - name: name
+          in: formData
+          required: true
+          type: string
+        - name: facebook_token
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: Object `user`
+          schema:
+            $ref: '#/definitions/Auth'
+
+  ### Password reset ###
+
+  /api/password/email:
+    post:
+      tags:
+        - Password
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Send request for reset password by `e-mail` address
+      parameters:
+        - name: email
+          in: formData
+          description: User `email`
+          required: true
+          type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+
+  /api/password/reset/{token}?email={email}:
+    get:
+      tags:
+        - Password
+      description: Get parameters from received email
+      parameters:
+        - name: token
+          in: path
+          required: true
+          type: string
+        - name: email
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              token:
+                type: string
+              email:
+                type: string
+
+  /api/password/reset:
+    post:
+      tags:
+        - Password
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Send "new" password
+      parameters:
+        - name: token
+          in: formData
+          description: Token
+          required: true
+          type: string
+        - name: email
+          in: formData
+          description: User `email`
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: New password
+          required: true
+          type: string
+        - name: password_confirmation
+          in: formData
+          description: Confirm new password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              message:
+                type: string
+
+  ### User ###
+
+  /api/user/premium?token={token}:
+    get:
+      tags:
+        - User
+      description: Send request to assign premium status
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+
+  /api/user/device?token={token}:
+    post:
+      tags:
+        - User
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Assign device to user
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: UDID
+          in: formData
+          description: Device `UDID`
+          type: string
+        - name: device_token
+          in: formData
+          description: Device `token`
+          required: true
+          type: string
+        - name: device_type
+          in: formData
+          description: Device `type` (1 = iPhone, 2 = Android, 3 = Windows)
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+
+  /api/user/subscribe?token={token}:
+    post:
+      tags:
+        - User
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Subscribe device to notifications
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: device_token
+          in: formData
+          description: Device `token`
+          required: true
+          type: string
+        - name: push
+          in: formData
+          description: (1 = Subscribe / 0 = unSubscribe)
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+
+  /api/user/summary?token={token}:
+    get:
+      tags:
+        - User
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get summary information by auth user `token`
+      parameters:
+        - name: token
+          in: path
+          description: User auth token
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              total:
+                type: object
+                properties:
+                  followers:
+                    type: integer
+                  following:
+                    type: integer
+              users:
+                type: object
+                properties:
+                  followers:
+                    type: array
+                    items:
+                      $ref: '#/definitions/User'
+                  following:
+                    type: array
+                    items:
+                      $ref: '#/definitions/User'
+                  likes:
+                    type: array
+                    items:
+                      $ref: '#/definitions/File'
+
+  ### Followers ###
+
+  /api/user/follow?token={token}:
+    post:
+      tags:
+        - User
+        - Follower
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Follow to user by `id` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: User `ID`
+          required: true
+          type: integer
+
+  ### Booking ###
+
+  /api/user/booking?token={token}:
+    post:
+      tags:
+        - User
+        - Booking
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Book `model` by `id` and auth user `token`.
+      responses:
+        200:
+          description: Send email to admin
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute)
+          required: true
+          type: string
+
+  ### Likes ###
+
+  /api/user/likes?token={token}:
+    get:
+      tags:
+        - User
+        - Like
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get all "Likes" by auth user `token`
+      parameters:
+        - name: token
+          in: path
+          description: User auth token
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Deal'
+              lastminutes:
+                type: array
+                items:
+                  $ref: '#/definitions/Lastminute'
+              accommodations:
+                type: array
+                items:
+                  $ref: '#/definitions/Accommodation'
+              restaurants:
+                type: array
+                items:
+                  $ref: '#/definitions/Restaurant'
+              resorts:
+                type: array
+                items:
+                  $ref: '#/definitions/Resort'
+    post:
+      tags:
+        - User
+        - Like
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get "Likes" by `id`, `model` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              model:
+                type: object
+              likes:
+                type: array
+                items:
+                  $ref: '#/definitions/Likable'
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+
+  /api/user/likes/hots?token={token}:
+    post:
+      tags:
+        - User
+        - Like
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get "Like" to `model` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+
+  /api/user/like?token={token}:
+    post:
+      tags:
+        - User
+        - Like
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Set "Like" to `model` by `id` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+
+  ### Comments ###
+
+  /api/user/comments?token={token}:
+    get:
+      tags:
+        - User
+        - Comment
+      description: Get all "Comments" by auth user `token`
+      parameters:
+        - name: token
+          in: path
+          description: User auth token
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Deal'
+              lastminutes:
+                type: array
+                items:
+                  $ref: '#/definitions/Lastminute'
+              accommodations:
+                type: array
+                items:
+                  $ref: '#/definitions/Accommodation'
+              restaurants:
+                type: array
+                items:
+                  $ref: '#/definitions/Restaurant'
+              resorts:
+                type: array
+                items:
+                  $ref: '#/definitions/Resort'
+    post:
+      tags:
+        - User
+        - Comment
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get "Comments" by `id`, `model` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              model:
+                type: object
+              likes:
+                type: array
+                items:
+                  $ref: '#/definitions/Commentable'
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+
+  /api/user/comment?token={token}:
+    post:
+      tags:
+        - User
+        - Comment
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Set "Comment" to `model` by `id` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+        - name: comment
+          in: formData
+          description: Text for comment
+          required: true
+          type: string
+
+  ### Shares ###
+
+  /api/user/shares?token={token}:
+    get:
+      tags:
+        - User
+        - Share
+      description: Get all "Shares" by auth user `token`
+      parameters:
+        - name: token
+          in: path
+          description: User auth token
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Deal'
+              lastminutes:
+                type: array
+                items:
+                  $ref: '#/definitions/Lastminute'
+              accommodations:
+                type: array
+                items:
+                  $ref: '#/definitions/Accommodation'
+              restaurants:
+                type: array
+                items:
+                  $ref: '#/definitions/Restaurant'
+              resorts:
+                type: array
+                items:
+                  $ref: '#/definitions/Resort'
+    post:
+      tags:
+        - User
+        - Share
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get "Shares" by `id`, `model` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              model:
+                type: object
+              likes:
+                type: array
+                items:
+                  $ref: '#/definitions/Share'
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+
+  /api/user/share?token={token}:
+    post:
+      tags:
+        - User
+        - Share
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Set "Shares" to `model` by `id` and auth user `token`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (deal|lastminute|resort|restaurant|accommodation|file)
+          required: true
+          type: string
+        - name: share
+          in: formData
+          description: Share token
+          required: true
+          type: string
+
+  ### Areas ###
+
+  /api/area/countries:
+    get:
+      tags:
+        - Area
+      description: Get all "Countries"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Country'
+
+  /api/area/country/{id}:
+    get:
+      tags:
+        - Area
+      description: Get "Country"
+      parameters:
+        - name: id
+          in: path
+          description: Country `id`
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Country'
+
+  /api/area/states/{country_id}:
+    get:
+      tags:
+        - Area
+      description: Get all "States"
+      parameters:
+        - name: country_id
+          in: path
+          description: Country `id`
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/State'
+
+  /api/area/state/{id}:
+    get:
+      tags:
+        - Area
+      description: Get "State"
+      parameters:
+        - name: id
+          in: path
+          description: State `id`
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/State'
+
+  /api/area/cities/{state_id}:
+    get:
+      tags:
+        - Area
+      description: Get all "States"
+      parameters:
+        - name: state_id
+          in: path
+          description: State `id`
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+
+  /api/area/city/{id}:
+    get:
+      tags:
+        - Area
+      description: Get "City"
+      parameters:
+        - name: id
+          in: path
+          description: City `id`
+          required: true
+          type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/City'
+
+  ### Sites ###
+
+  /api/sites:
+    get:
+      tags:
+        - Other
+      description: Get all "Sites"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Site'
+
+  ### Tags ###
+
+  /api/tags:
+    get:
+      tags:
+        - Other
+      description: Get all "Tags"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Tag'
+
+  ### Languages ###
+
+  /api/languages:
+    get:
+      tags:
+        - Other
+      description: Get all "Languages"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Language'
+
+  /api/translations/{local}:
+    get:
+      tags:
+        - Other
+      description: Get all "Translations" by `local`
+      parameters:
+        - name: local
+          in: path
+          description: Language `local`
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Translation'
+
+  ### Files ###
+
+  /api/photo:
+    get:
+      tags:
+        - Photo
+      description: Get all "Photos" with his owner object (User/Deal/Lastminute/Resort/Restaurant/Accommodation)
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/File'
+
+  /api/photo/users/{id}:
+    get:
+      tags:
+        - Photo
+      description: Get all "Photos" with by selected user
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FilePaginator'
+      parameters:
+        - name: page
+          in: query
+          description: Page `number` for paginate
+          type: integer
+        - name: id
+          in: path
+          description: User `ID`
+          required: true
+          type: integer
+
+  /api/photo/shared?token={token}:
+    get:
+      tags:
+        - Photo
+      description: Get "All my shared" photos
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/File'
+
+  /api/photo/upload?token={token}:
+    post:
+      tags:
+        - Photo
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Upload "Photo". If `model` = "users", parameter `id` - `id` of current authenticated user
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              url:
+                type: string
+              thumbnail:
+                type: string
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (users|resorts|restaurants|accommodations)
+          required: true
+          type: string
+        - name: file
+          in: formData
+          description: Uploaded file
+          required: true
+          type: file
+        - name: description
+          in: formData
+          description: Caption for uploaded photo
+          type: string
+        - name: location
+          in: formData
+          description: Location for uploaded photo
+          type: string
+
+  /api/video:
+    get:
+      tags:
+        - Video
+      description: Get all "Videos" with his owner object (User/Deal/Lastminute/Resort/Restaurant/Accommodation)
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/File'
+
+  /api/video/awarded:
+    get:
+      tags:
+        - Video
+      description: Get "Awarded Video"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/File'
+
+  /api/video/promo:
+    get:
+      tags:
+        - Video
+      description: Get "Promotional Video"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/File'
+
+  /api/video/users/{id}:
+    get:
+      tags:
+        - Video
+      description: Get all "Videos" with by selected user
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FilePaginator'
+      parameters:
+        - name: page
+          in: query
+          description: Page `number` for paginate
+          type: integer
+        - name: id
+          in: path
+          description: User `ID`
+          required: true
+          type: integer
+
+  /api/video/shared?token={token}:
+    get:
+      tags:
+        - Video
+      description: Get "All my shared" videos
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/File'
+
+  /api/video/upload?token={token}:
+    post:
+      tags:
+        - Video
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Upload "Video". If `model` = "users", parameter `id` - `id` of current authenticated user
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              url:
+                type: string
+              thumbnail:
+                type: string
+      parameters:
+        - name: token
+          in: path
+          description: User auth `token`
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: Model `ID`
+          required: true
+          type: integer
+        - name: model
+          in: formData
+          description: Model `Type` (users|resorts|restaurants|accommodations)
+          required: true
+          type: string
+        - name: file
+          in: formData
+          description: Uploaded file
+          required: true
+          type: file
+        - name: description
+          in: formData
+          description: Caption for uploaded video
+          type: string
+        - name: location
+          in: formData
+          description: Location for uploaded video
+          type: string
+
+  ### GEO ###
+
+  /api/geo:
+    post:
+      tags:
+        - Geo
+      consumes:
+        - application/json
+        - multipart/form-data
+      description: Get all point on map with min and max `longitude` and `latitude`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Geo'
+      parameters:
+        - name: longMin
+          in: formData
+          description: Min `longitude`
+          required: true
+          type: number
+        - name: longMax
+          in: formData
+          description: Max `longitude`
+          required: true
+          type: number
+        - name: latMin
+          in: formData
+          description: Min `latitude`
+          required: true
+          type: number
+        - name: latMax
+          in: formData
+          description: Max `latitude`
+          required: true
+          type: number
+        - name: type
+          in: formData
+          description: Filter `type`
+          type: string
+        - name: name
+          in: formData
+          description: Filter `name`
+          type: string
+
+  /api/geo/show/{model}/{id}:
+    get:
+      tags:
+        - Geo
+      description: Show data from selected geolocation
+      responses:
+        200:
+          description: Return resort|restaurant|accommodation object with site/country/state/city relation
+          schema:
+            type: object
+      parameters:
+        - name: model
+          in: path
+          description: Model `Type` (resort|restaurant|accommodation)
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Model `ID`
+          required: true
+          type: integer
+
+  /api/geo/filter/categories:
+    get:
+      tags:
+        - Geo
+      description: Get all "Categories" for GEO filter
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+
+  ### WEB TV ###
+
+  /api/web/tv:
+    get:
+      tags:
+        - TV
+      description: Get all "TV Videos" with his owner object (User/Deal/Lastminute/Resort/Restaurant/Accommodation)
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FilePaginator'
+      parameters:
+        - name: page
+          in: query
+          description: Page `number` for paginate
+          type: integer
+
+  /api/web/tv/filter:
+    get:
+      tags:
+        - TV
+      description: Filter "Videos" by various params country/state/city/category/name/tags
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/FilePaginator'
+      parameters:
+        - name: page
+          in: query
+          description: Page `number` for paginate
+          type: integer
+        - name: country
+          in: query
+          description: Country `ID`
+          type: integer
+        - name: state
+          in: query
+          description: State `ID`
+          type: integer
+        - name: city
+          in: query
+          description: City `ID`
+          type: integer
+        - name: category
+          in: query
+          description: Owner category `site_id`
+          type: integer
+        - name: name
+          in: query
+          description: Owner `name`
+          type: string
+        - name: tags
+          in: query
+          description: Tag `ID`, separate by `,` (comma)
+          type: string
+
+  ### Accommodation ###
+
+  /api/adventure/accommodations:
+    get:
+      tags:
+        - Accommodation
+      description: Gets all `Accommodations` objects in array
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Accommodation'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  /api/adventure/accommodations/{site}:
+    get:
+      tags:
+        - Accommodation
+      description: Gets all `Accommodation` objects by `site` (Golf, Sky, Horce, etc.) in array
+      parameters:
+      - name: site
+        in: path
+        description: Site ID (Golf, Sky, Horce, etc.)
+        required: true
+        type: integer
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Accommodation'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  /api/adventure/accommodation/{id}:
+    get:
+      tags:
+        - Accommodation
+      description: Gets `Accommodation` object by `id` for edit form
+      parameters:
+      - name: id
+        in: path
+        description: Deal ID
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Deal object
+          schema:
+            type: object
+            properties:
+              items:
+                $ref: '#/definitions/Accommodation'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  ### Resort ###
+
+  /api/adventure/resorts:
+    get:
+      tags:
+        - Resort
+      description: Gets all `Resort` objects in array
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Resort'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  /api/adventure/resorts/{site}:
+    get:
+      tags:
+        - Resort
+      description: Gets all `Resort` objects by `site` (Golf, Sky, Horce, etc.) in array
+      parameters:
+      - name: site
+        in: path
+        description: Site ID (Golf, Sky, Horce, etc.)
+        required: true
+        type: integer
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Resort'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  /api/adventure/resort/{id}:
+    get:
+      tags:
+        - Resort
+      description: Gets `Resort` object by `id` for edit form
+      parameters:
+      - name: id
+        in: path
+        description: Deal ID
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Deal object
+          schema:
+            type: object
+            properties:
+              items:
+                $ref: '#/definitions/Resort'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+
+  ### Restaurant ###
+
+  /api/adventure/restaurants:
+    get:
+      tags:
+        - Restaurant
+      description: Gets all `Restaurant` objects in array
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Restaurant'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+
+  /api/adventure/restaurants/{site}:
+    get:
+      tags:
+        - Restaurant
+      description: Gets all `Restaurant` objects by `site` (Golf, Sky, Horce, etc.) in array
+      parameters:
+      - name: site
+        in: path
+        description: Site ID (Golf, Sky, Horce, etc.)
+        required: true
+        type: integer
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Restaurant'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+
+  /api/adventure/restaurant/{id}:
+    get:
+      tags:
+        - Restaurant
+      description: Gets `Restaurant` object by `id` for edit form
+      parameters:
+      - name: id
+        in: path
+        description: Deal ID
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Deal object
+          schema:
+            type: object
+            properties:
+              items:
+                $ref: '#/definitions/Restaurant'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              types:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    marker:
+                      type: string
+
+  ### Deals ###
+
+  /api/adventure/deals:
+    get:
+      tags:
+        - Deal
+      description: Gets all `Deals` objects in array
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Deal'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+
+  /api/adventure/deals/{site}:
+    get:
+      tags:
+        - Deal
+      description: Gets all `Deals` objects by `site` (Golf, Sky, Horce, etc.) in array
+      parameters:
+      - name: site
+        in: path
+        description: Site ID (Golf, Sky, Horce, etc.)
+        required: true
+        type: integer
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              deals:
+                type: array
+                items:
+                  $ref: '#/definitions/Deal'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+
+  /api/adventure/deal/{id}:
+    get:
+      tags:
+        - Deal
+      description: Gets `Deal` object by `id` for edit form
+      parameters:
+      - name: id
+        in: path
+        description: Deal ID
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Deal object
+          schema:
+            type: object
+            properties:
+              items:
+                $ref: '#/definitions/Deal'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+#    post:
+#      tags:
+#        - Deal
+#      description: Update `Deal` object
+#      responses:
+#        200:
+#          description: OK
+#      parameters:
+#        - name: id
+#          in: path
+#          description: Deal ID
+#          required: true
+#          type: integer
+#        - name: site
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: limiter
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: name
+#          in: formData
+#          required: true
+#          type: string
+#        - name: shortdescription
+#          in: formData
+#          required: true
+#          type: string
+#        - name: description
+#          in: formData
+#          required: true
+#          type: string
+#        - name: latitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: longitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: originalprice
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: price
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: currency
+#          in: formData
+#          required: true
+#          type: string
+#        - name: link
+#          in: formData
+#          required: true
+#          type: string
+#        - name: owner
+#          in: formData
+#          required: true
+#          type: string
+#        - name: starts
+#          in: formData
+#          required: true
+#          type: string
+#        - name: ends
+#          in: formData
+#          required: true
+#          type: string
+#        - name: numberofpurchases
+#          in: formData
+#          required: true
+#          type: integer
+#    delete:
+#      tags:
+#        - Deal
+#      description: Delete `Deal` objects by `id`
+#      parameters:
+#      - name: id
+#        in: path
+#        description: Deal ID
+#        required: true
+#        type: integer
+#      responses:
+#        200:
+#          description: OK
+
+#  /api/adventure/deal:
+#    post:
+#      tags:
+#        - Deal
+#      description: Store new `Deal` object
+#      responses:
+#        200:
+#          description: OK
+#      parameters:
+#        - name: site
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: limiter
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: name
+#          in: formData
+#          required: true
+#          type: string
+#        - name: shortdescription
+#          in: formData
+#          required: true
+#          type: string
+#        - name: description
+#          in: formData
+#          required: true
+#          type: string
+#        - name: latitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: longitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: originalprice
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: price
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: currency
+#          in: formData
+#          required: true
+#          type: string
+#        - name: link
+#          in: formData
+#          required: true
+#          type: string
+#        - name: owner
+#          in: formData
+#          required: true
+#          type: string
+#        - name: starts
+#          in: formData
+#          required: true
+#          type: string
+#        - name: ends
+#          in: formData
+#          required: true
+#          type: string
+#        - name: numberofpurchases
+#          in: formData
+#          required: true
+#          type: integer
+
+  ### Lastminutes ###
+
+  /api/adventure/lastminutes:
+    get:
+      tags:
+        - Lastminute
+      description: Gets all `Lastminutes` objects in array
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              lastminutes:
+                type: array
+                items:
+                  $ref: '#/definitions/Lastminute'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+
+  /api/adventure/lastminutes/{site}:
+    get:
+      tags:
+        - Lastminute
+      description: Gets all `Lastminutes` objects by `site` (Golf, Sky, Horce, etc.) in array
+      parameters:
+      - name: site
+        in: path
+        description: Site ID (Golf, Sky, Horce, etc.)
+        required: true
+        type: integer
+      responses:
+        200:
+          description: JSON array
+          schema:
+            type: object
+            properties:
+              lastminutes:
+                type: array
+                items:
+                  $ref: '#/definitions/Lastminute'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+
+  /api/adventure/lastminute/{id}:
+    get:
+      tags:
+        - Lastminute
+      description: Gets `Lastminute` object by `id` for edit form
+      parameters:
+      - name: id
+        in: path
+        description: Lastminute ID
+        required: true
+        type: integer
+      responses:
+        200:
+          description: Lastminute object
+          schema:
+            type: object
+            properties:
+              items:
+                $ref: '#/definitions/Lastminute'
+              sites:
+                type: array
+                items:
+                  $ref: '#/definitions/Site'
+              limiters:
+                type: array
+                items:
+                  $ref: '#/definitions/Limiter'
+#    post:
+#      tags:
+#        - Lastminute
+#      description: Update `Lastminute` object
+#      responses:
+#        200:
+#          description: OK
+#      parameters:
+#        - name: id
+#          in: path
+#          description: Lastminute ID
+#          required: true
+#          type: integer
+#        - name: site
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: limiter
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: name
+#          in: formData
+#          required: true
+#          type: string
+#        - name: shortdescription
+#          in: formData
+#          required: true
+#          type: string
+#        - name: description
+#          in: formData
+#          required: true
+#          type: string
+#        - name: latitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: longitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: originalprice
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: price
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: currency
+#          in: formData
+#          required: true
+#          type: string
+#        - name: link
+#          in: formData
+#          required: true
+#          type: string
+#        - name: owner
+#          in: formData
+#          required: true
+#          type: string
+#        - name: starts
+#          in: formData
+#          required: true
+#          type: string
+#        - name: ends
+#          in: formData
+#          required: true
+#          type: string
+#        - name: numberofpurchases
+#          in: formData
+#          required: true
+#          type: integer
+#    delete:
+#      tags:
+#        - Lastminute
+#      description: Delete `Lastminutes` objects by `id`
+#      parameters:
+#      - name: id
+#        in: path
+#        description: Lastminute ID
+#        required: true
+#        type: integer
+#      responses:
+#        200:
+#          description: OK
+
+#  /api/adventure/lastminute:
+#    post:
+#      tags:
+#        - Lastminute
+#      description: Store new `Lastminute` object
+#      responses:
+#        200:
+#          description: OK
+#      parameters:
+#        - name: site
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: limiter
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: name
+#          in: formData
+#          required: true
+#          type: string
+#        - name: shortdescription
+#          in: formData
+#          required: true
+#          type: string
+#        - name: description
+#          in: formData
+#          required: true
+#          type: string
+#        - name: latitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: longitude
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: originalprice
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: price
+#          in: formData
+#          required: true
+#          type: integer
+#        - name: currency
+#          in: formData
+#          required: true
+#          type: string
+#        - name: link
+#          in: formData
+#          required: true
+#          type: string
+#        - name: owner
+#          in: formData
+#          required: true
+#          type: string
+#        - name: starts
+#          in: formData
+#          required: true
+#          type: string
+#        - name: ends
+#          in: formData
+#          required: true
+#          type: string
+#        - name: numberofpurchases
+#          in: formData
+#          required: true
+#          type: integer
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Deal:
+    type: object
+    properties:
+      id:
+       type: integer
+      site_id:
+        type: integer
+      limiter_id:
+        type: integer
+      name:
+        type: string
+      shortdescription:
+        type: string
+      description:
+        type: string
+      owner:
+        type: string
+      currency:
+        type: string
+      thumbnail:
+        type: string
+      movie:
+        type: string
+      link:
+        type: string
+      starts:
+        type: string
+      ends:
+        type: string
+      originalprice:
+        type: integer
+      price:
+        type: integer
+      numberofpurchases:
+        type: integer
+      remaining:
+        type: integer
+      views:
+        type: integer
+      hits:
+        type: integer
+      longitude:
+        type: integer
+      latitude:
+        type: integer
+      site:
+        type: object
+        properties:
+          items:
+            $ref: '#/definitions/Site'
+      limiter:
+        type: object
+        properties:
+          items:
+            $ref: '#/definitions/Limiter'
+      resorts:
+        type: array
+        items:
+          $ref: '#/definitions/Resort'
+      restaurants:
+        type: array
+        items:
+          $ref: '#/definitions/Restaurant'
+      accommodations:
+        type: array
+        items:
+          $ref: '#/definitions/Accommodation'
+  Lastminute:
+    type: object
+    properties:
+      id:
+       type: integer
+      site_id:
+        type: integer
+      limiter_id:
+        type: integer
+      name:
+        type: string
+      shortdescription:
+        type: string
+      description:
+        type: string
+      owner:
+        type: string
+      currency:
+        type: string
+      thumbnail:
+        type: string
+      movie:
+        type: string
+      link:
+        type: string
+      starts:
+        type: string
+      ends:
+        type: string
+      originalprice:
+        type: integer
+      price:
+        type: integer
+      numberofpurchases:
+        type: integer
+      remaining:
+        type: integer
+      views:
+        type: integer
+      hits:
+        type: integer
+      longitude:
+        type: integer
+      latitude:
+        type: integer
+      site:
+        type: object
+        properties:
+          items:
+            $ref: '#/definitions/Site'
+      limiter:
+        type: object
+        properties:
+          items:
+            $ref: '#/definitions/Limiter'
+      resorts:
+        type: array
+        items:
+          $ref: '#/definitions/Resort'
+      restaurants:
+        type: array
+        items:
+          $ref: '#/definitions/Restaurant'
+      accommodations:
+        type: array
+        items:
+          $ref: '#/definitions/Accommodation'
+  Resort:
+    type: object
+    properties:
+      id:
+        type: integer
+      site_id:
+        type: integer
+      country_id:
+        type: integer
+      state_id:
+        type: integer
+      city_id:
+        type: integer
+      name:
+        type: string
+      thumbnail:
+        type: string
+      description:
+        type: string
+      details:
+        type: string
+      longitude:
+        type: integer
+      latitude:
+        type: integer
+      street:
+        type: string
+      zip:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      administrator:
+        type: string
+      link:
+        type: string
+      sponser:
+        type: integer
+      published:
+        type: integer
+  Restaurant:
+    type: object
+    properties:
+      id:
+        type: integer
+      site_id:
+        type: integer
+      type_id:
+        type: integer
+      country_id:
+        type: integer
+      state_id:
+        type: integer
+      city_id:
+        type: integer
+      name:
+        type: string
+      thumbnail:
+        type: string
+      description:
+        type: string
+      owner:
+        type: string
+      longitude:
+        type: integer
+      latitude:
+        type: integer
+      street:
+        type: string
+      zip:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      link:
+        type: string
+      sponser:
+        type: integer
+      published:
+        type: integer
+  Accommodation:
+    type: object
+    properties:
+      id:
+        type: integer
+      site_id:
+        type: integer
+      type_id:
+        type: integer
+      country_id:
+        type: integer
+      state_id:
+        type: integer
+      city_id:
+        type: integer
+      name:
+        type: string
+      thumbnail:
+        type: string
+      description:
+        type: string
+      owner:
+        type: string
+      longitude:
+        type: integer
+      latitude:
+        type: integer
+      street:
+        type: string
+      zip:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      link:
+        type: string
+      sponser:
+        type: integer
+      published:
+        type: integer
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      country_id:
+        type: integer
+      state_id:
+        type: integer
+      city_id:
+        type: integer
+      firstname:
+        type: string
+      lastname:
+        type: string
+      address:
+        type: string
+      zip:
+        type: string
+      phone:
+        type: string
+      newsletter:
+        type: string
+      notify:
+        type: string
+      online_status:
+        type: integer
+      show_info:
+        type: integer
+      priority:
+        type: integer
+  Device:
+    type: object
+    properties:
+      UDID:
+        type: string
+      device_token:
+        type: string
+      device_type:
+        type: string
+      subscribe:
+        type: integer
+  Auth:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      profile:
+        $ref: '#/definitions/Profile'
+      token:
+        type: string
+      expiration:
+        type: string
+      role:
+        type: string
+      premium:
+        type: string
+      devices:
+        type: array
+        items:
+          $ref: '#/definitions/Device'
+      s3token:
+        type: object
+        properties:
+          policy:
+            type: string
+          signature:
+            type: string
+          key:
+            type: string
+      sites:
+        type: array
+        items:
+          $ref: '#/definitions/Site'
+  Likable:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+  Commentable:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      commentable_text:
+        type: string
+  Share:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      sharing_token:
+        type: string
+  Site:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      marker:
+        type: string
+  Limiter:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Country:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  State:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  City:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  File:
+    type: object
+    properties:
+      id:
+        type: integer
+      mine:
+        type: string
+      name:
+        type: string
+      path:
+        type: string
+      ext:
+        type: string
+      size:
+        type: string
+      description:
+        type: string
+      file:
+        type: string
+      thumbnail:
+        type: string
+      owner:
+        type: object
+  FilePaginator:
+    type: object
+    properties:
+      total:
+        type: integer
+      per_page:
+        type: integer
+      current_page:
+        type: integer
+      last_page:
+        type: string
+      next_page_url:
+        type: string
+      from:
+        type: integer
+      to:
+        type: integer
+      date:
+        type: array
+        items:
+          $ref: '#/definitions/File'
+  Geo:
+    type: object
+    properties:
+      id:
+        type: integer
+      longitude:
+        type: number
+      latitude:
+        type: number
+      model:
+        type: string
+      site:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          marker:
+            type: string
+      type:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          marker:
+            type: string
+      url:
+        type: string
+  Language:
+    type: object
+    properties:
+      name:
+        type: string
+      short:
+        type: string
+      local:
+        type: string
+      translate:
+        type: string
+  Translation:
+    type: object
+    properties:
+      key:
+        type: string
+      translate:
+        type: string

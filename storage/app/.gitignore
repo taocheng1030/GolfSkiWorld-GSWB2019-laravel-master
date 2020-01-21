@@ -1,0 +1,6 @@
+*
+!photo/
+!public/
+!queue/
+!video/
+!.gitignore

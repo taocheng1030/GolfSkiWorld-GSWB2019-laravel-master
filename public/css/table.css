@@ -1,0 +1,26 @@
+th:first-child {
+    width: 50px !important;
+}
+th {
+    width: auto !important;
+}
+th:last-child {
+    width: 95px !important;
+}
+
+.table-without-ID th:first-child {
+    width: auto !important;
+}
+
+th.table-filter {
+    vertical-align: top !important;
+}
+
+th.table-filter .form-control {
+    height: 26px;
+    padding: 1px 3px;
+}
+
+.bootbox .table {
+    margin-bottom: 0;
+}

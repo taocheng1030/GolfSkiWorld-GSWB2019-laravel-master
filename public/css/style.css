@@ -1,0 +1,269 @@
+.mt-10 { margin-top:10px; }
+.mt-15 { margin-top:15px; }
+.mt-20 { margin-top:20px; }
+
+.mb-10 { margin-bottom:10px; }
+.mb-15 { margin-bottom:15px; }
+.mb-20 { margin-bottom:20px; }
+
+.pt-10 { padding-top: 10px; }
+.pt-15 { padding-top: 15px; }
+.pt-20 { padding-top: 20px; }
+
+.pb-10 { padding-bottom: 10px; }
+.pb-15 { padding-bottom: 15px; }
+.pb-20 { padding-bottom: 20px; }
+
+textarea {
+    resize: none;
+}
+
+form .nav-tabs-custom {
+    margin-bottom: 0;
+}
+
+form .nav-tabs-custom .form-actions {
+    padding-top: 10px;
+    border-top: 1px solid #f4f4f4;
+}
+
+.model-gallery .model-gallery-item {
+    position: relative;
+    display: block;
+    float: left;
+    width: 320px;
+    height: 290px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dddddd;
+    overflow: hidden;
+    box-shadow: 0 0 5px #dddddd;
+}
+
+.model-gallery.model-movies-extends .model-gallery-item {
+    height: 330px;
+}
+
+.model-gallery .model-gallery-item .model-gallery-item-image {
+    height: 250px;
+    overflow: hidden;
+}
+
+.model-gallery .model-gallery-item .model-gallery-item-name {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.model-gallery .caption {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    padding: 5px;
+    border-top: 1px solid #dddddd;
+}
+
+.model-gallery .model-gallery-item .buttons {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #ffffff;
+    border-top: 1px solid #dddddd;
+}
+
+.model-gallery .model-gallery-item .buttons .left {
+    float: left;
+}
+
+.model-gallery .model-gallery-item .buttons .right {
+    float: right;
+}
+
+.model-gallery .model-gallery-item .buttons .dropdown-menu {
+    border-color: #dddddd;
+}
+
+.model-gallery .model-gallery-uploader {
+    position: relative;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.model-movies.model-movies-extends .model-movies-uploader {
+    margin: 0;
+    border: none;
+}
+
+.model-gallery .model-gallery-uploader .modal-backdrop {
+    position: absolute;
+    background-color: #ffffff;
+    text-align: center;
+    padding-top: 65px;
+    opacity: 0.7;
+}
+
+.model-movies .model-movies-item {
+    position: relative;
+    display: block;
+    float: left;
+    width: 320px;
+    height: 290px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dddddd;
+    overflow: hidden;
+    box-shadow: 0 0 5px #dddddd;
+}
+.model-movies.model-movies-extends .model-movies-item {
+    height: 400px;
+}
+
+.model-movies.model-movies-youtube .model-movies-item {
+    height: 300px;
+}
+
+.model-movies .model-movies-item .model-movies-item-image {
+    height: 240px;
+    overflow: hidden;
+}
+
+.model-movies .model-movies-item .model-movies-item-name {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.model-movies.model-movies-youtube .model-movies-item .model-movies-item-image {
+    height: 180px;
+}
+
+.model-movies .caption {
+    padding: 5px 10px;
+}
+
+.model-movies .caption .name {
+    font-size: 18px;
+}
+
+.model-movies .model-movies-item .buttons {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+    background-color: #ffffff;
+    border-top: 1px solid #dddddd;
+}
+
+.model-movies .model-movies-item .buttons .left {
+    float: left;
+}
+
+.model-movies .model-movies-item .buttons .right {
+    float: right;
+}
+
+.model-movies .model-movies-item .buttons .dropdown-menu {
+    border-color: #dddddd;
+}
+
+.model-movies .model-movies-uploader {
+    position: relative;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.model-movies .model-movies-uploader .modal-backdrop {
+    position: absolute;
+    background-color: #ffffff;
+    text-align: center;
+    padding-top: 65px;
+    opacity: 0.7;
+}
+
+.model-item {
+    margin-bottom: 20px;
+}
+
+.tags-checklist {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.jFiler-input-dragDrop {
+    height: 230px;
+}
+
+.jFiler-input-choose-btn.orange {
+    font-size: 14px;
+    color: #f39c12;
+    border: 1px solid #e08e0b;
+}
+
+.jFiler-input-choose-btn.orange:hover {
+    background: #f39c12;
+    color: #ffffff;
+}
+
+.jFiler-input-choose-btn.orange:active {
+    background: #f39c12;
+}
+
+/***********
+* AdminLTE *
+***********/
+
+.box-footer .pagination {
+    margin: 0;
+}
+
+.box-profile .list-group {
+    margin-bottom: 5px;
+}
+
+.box-profile .list-group .list-group-item {
+    padding-left: 10px;
+    padding-right: 15px;
+}
+
+/**********
+* BootBox *
+**********/
+
+.modal-summary .modal-body{
+    padding: 0;
+}
+
+/****************
+* Notifications *
+****************/
+
+.notifications-menu .menu a {
+    white-space: normal !important;
+    font-size: 12px;
+}
+
+.notifications-menu .menu a .time, .notifications-menu .menu a .action {
+    color: #777777;
+    float: right !important;
+    margin-left: 10px;
+}
+
+.notifications-menu strong {
+    color: #3c8dbc;
+    cursor: pointer;
+}
+
+.iti-flag {background-image: url("../vendor/intl-tel-input/img/flags.png");}
+.intl-tel-input.allow-dropdown {
+    width:100%
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti-flag {background-image: url("../vendor/intl-tel-input/img/flags@2x.png");}
+}

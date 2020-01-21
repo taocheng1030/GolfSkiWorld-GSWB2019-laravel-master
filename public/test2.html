@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GolfSkiWorld :: Dashboard :: Users video</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="http://localhost:8000/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8000/vendor/jasny-bootstrap/css/jasny-bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="http://localhost:8000/vendor/font-awesome/css/font-awesome.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="http://localhost:8000/vendor/ionic-framework/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="http://localhost:8000/vendor/admin-lte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="http://localhost:8000/vendor/admin-lte/css/skins/skin-blue.min.css">
+    <!-- Plugins style -->
+    <link href="http://localhost:8000/vendor/datatables/dataTables.bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="http://localhost:8000/vendor/multiselect/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <link href="http://localhost:8000/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- Custom styles -->
+    <link href="http://localhost:8000/css/style.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="http://localhost:8000/css/table.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="http://localhost:8000/vendor/jQuery.filer/css/jquery.filer.css">
+    <link rel="stylesheet" href="http://localhost:8000/vendor/jQuery.filer/css/themes/jquery.filer-dragdropbox-theme.css">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="http://localhost:8000/admin" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>GS</b>W</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>GolfSki</b>World</span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages menu-->
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu notification-files">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-video-camera"></i>
+                            <span class="label label-warning"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">
+                                No messages                </li>
+                            <li>
+                                <ul class="menu">
+                                </ul>
+                            </li>
+                            <li class="footer" style=" display:none; ">
+                                <a href="#markRead" data-url="http://localhost:8000/admin/system/notification/markRead">
+                                    Read all            </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu notification-info">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-ticket"></i>
+                            <span class="label label-warning"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">
+                                No messages                </li>
+                            <li>
+                                <ul class="menu">
+                                </ul>
+                            </li>
+                            <li class="footer" style=" display:none; ">
+                                <a href="#markRead" data-url="http://localhost:8000/admin/system/notification/markRead">
+                                    Read all            </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Tasks Menu -->
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="http://localhost:8000/img/default-avatar.png" class="user-image" alt="Admininistrator">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">Admininistrator</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="http://localhost:8000/img/default-avatar.png" class="img-circle" alt="Admininistrator">
+                                <p>Admininistrator</p>
+                                <div id="Auth" class="hide" data-url="http://localhost:8000/admin/check" data-id="1"></div>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a class="btn btn-default btn-flat" href="http://localhost:8000/admin/profile">
+                                        <i class="fa fa-btn fa-user"></i>
+                                        Profile
+                                    </a>
+                                </div>
+                                <div class="pull-right">
+                                    <a class="btn btn-default btn-flat" href="http://localhost:8000/admin/logout">
+                                        <i class="fa fa-btn fa-sign-out"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>                <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- search form (Optional) -->
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu">
+                <li class="header">Information</li>
+                <li ><a href="http://localhost:8000/admin/deals"><i class="fa fa-ticket"></i> <span>Deals</span></a></li>
+                <li ><a href="http://localhost:8000/admin/lastminutes"><i class="fa fa-ticket"></i> <span>Last minutes</span></a></li>
+                <li class="header">Places</li>
+                <li ><a href="http://localhost:8000/admin/resorts"><i class="fa fa-map-o"></i> <span>Resorts</span></a></li>
+                <li ><a href="http://localhost:8000/admin/restaurants"><i class="fa fa-cutlery"></i> <span>Restaurants</span></a></li>
+                <li ><a href="http://localhost:8000/admin/accommodations"><i class="fa fa-bed"></i> <span>Accommodation</span></a></li>
+                <li class="header">Files</li>
+                <li ><a href="http://localhost:8000/admin/photos/users"><i class="fa fa-photo"></i> <span>Users photos</span></a></li>
+                <li  class="active" ><a href="http://localhost:8000/admin/videos/users"><i class="fa fa-video-camera"></i> <span>Users video</span></a></li>
+                <li class="header">Settings</li>
+                <li ><a href="http://localhost:8000/admin/articles"><i class="fa fa-newspaper-o"></i> <span>Articles</span></a></li>
+                <li ><a href="http://localhost:8000/admin/tags"><i class="fa fa-tags"></i> <span>Tags</span></a></li>
+                <li ><a href="http://localhost:8000/admin/languages"><i class="fa fa-language"></i> <span>Languages</span></a></li>
+                <li ><a href="http://localhost:8000/admin/translations"><i class="fa fa-language"></i> <span>Translations</span></a></li>
+                <li class="treeview ">
+                    <a href="#"><i class="fa fa-users"></i> <span>Users</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li ><a href="http://localhost:8000/admin/users"><i class="fa fa-users"></i> <span>Users</span></a></li>
+                        <li ><a href="http://localhost:8000/watchtower"><i class="fa fa-gear"></i> <span>Security</span></a></li>
+                    </ul>
+                </li>
+                <li class="treeview ">
+                    <a href="#"><i class="fa fa-cog"></i> <span>System</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li ><a href="http://localhost:8000/admin/system/logs"><i class="fa fa-users"></i> <span>Log viewer</span></a></li>
+                    </ul>
+                </li>
+                <li class="header">For tests</li>
+                <li ><a href="http://localhost:8000/admin/tv"><i class="fa fa-video-camera"></i> <span>TV ( YouTube )</span></a></li>
+                <li><a href="http://localhost:8000/admin/logout"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+
+    </aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Users video
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="http://localhost:8000/admin"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Users video</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="box box-default model-movies model-movies-extends">
+
+                <div class="box-header with-border">
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-9 col-md-10">
+                            <div class="model-movies-uploader">
+                                <div class="filerInput-progress"></div>
+                                <input id="filerInputVideo" accept="video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv" data-token="sBbMvGAfSEnfIqAnTqmUFscOsC9q1c34dwVs04RJ" data-model="users" data-id="1" data-url="http://localhost:8000/admin/videos/upload"  name="files[]" type="file">
+                                <div class="text-center" style="display: none;">
+                                    <a class="jFiler-input-choose-btn green filerInput-upload-video">Upload</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-3 col-md-2">
+                            <div class="model-trash">
+                                <div class="jFiler-input-dragDrop" style="padding-top: 50px;">
+                                    <div class="jFiler-input-inner">
+                                        <div class="jFiler-input-icon">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                        <div class="jFiler-input-text">
+                                            <span style="display:block; margin: 10px 0"></span>
+                                        </div>
+                                        <a href="http://localhost:8000/admin/videos/trash" class="jFiler-input-choose-btn orange">Trash</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body">
+
+                    <div id="movies-items" class="model-movies-items">
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+                <div class="box-footer">
+
+                </div>
+
+            </div>
+
+        </section>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2016 <a href="http://localhost:8000/golfskiworld.com">GolfSkiWorld</a>.</strong> All rights reserved.
+    </footer>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-light">
+        <!-- Create the tabs -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+    <div id="CSRF" data-token="sBbMvGAfSEnfIqAnTqmUFscOsC9q1c34dwVs04RJ"></div>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery -->
+<script src="http://localhost:8000/vendor/jQuery/jquery.min.js"></script>
+<script src="http://localhost:8000/vendor/jQuery/jquery-migrate.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="http://localhost:8000/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="http://localhost:8000/vendor/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+<script src="http://localhost:8000/vendor/bootbox/bootbox.min.js"></script>
+<!-- iCheck -->
+<script src="http://localhost:8000/vendor/iCheck/icheck.min.js"></script>
+<!-- AdminLTE App -->
+<script src="http://localhost:8000/vendor/admin-lte/js/app.min.js"></script>
+
+<!-- Plugins script -->
+<script src="http://localhost:8000/vendor/moment/moment.min.js"></script>
+<script src="http://localhost:8000/vendor/moment/moment-with-locales.min.js"></script>
+<script src="http://localhost:8000/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="http://localhost:8000/vendor/datatables/dataTables.bootstrap.min.js"></script>
+<script src="http://localhost:8000/vendor/multiselect/bootstrap-multiselect.js"></script>
+<script src="http://localhost:8000/vendor/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- Custom script -->
+<script src="http://localhost:8000/js/helpers.js"></script>
+<script src="http://localhost:8000/js/location.js"></script>
+<script src="http://localhost:8000/js/app-admin.js"></script>
+
+<!-- Socket.Io -->
+<script src="http://localhost:8000/vendor/socket.io/socket.io.min.js"></script>
+<script src="http://localhost:8000/js/client.js"></script>
+
+<script src="http://localhost:8000/vendor/jQuery.filer/js/jquery.filer.js"></script>
+<script src="http://localhost:8000/js/gallery.video.js"></script>
+
+</body>
+</html>
